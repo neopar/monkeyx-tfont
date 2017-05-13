@@ -566,6 +566,23 @@ Class TFont
 		SetColor(OrigColor[0], OrigColor[1], OrigColor[2])
 	End Method
 	
+	Method SafeInit()
+	''' This method is here because the first time you call DrawText, 
+	''' the LoadGlyphs method draws all glyphs to the screen to create 
+	''' the font, and if this happens after calling autofit's 
+	'''	UpdateVirtualDisplay, it will cause the glyphs to be distorted 
+	''' if your canvas does not match your virtual display size.
+		If Not ImagesLoaded
+			PushMatrix
+			Local tempScissor:=GetScissor()
+			SetScissor(0,0,DeviceWidth,DeviceHeight)
+			SetMatrix(1.0,0.0,0.0,1.0,0.0,0.0)
+			LoadGlyphImages()
+			ImagesLoaded = True
+			SetScissor(tempScissor[0],tempScissor[1],tempScissor[2],tempScissor[3])
+			PopMatrix
+		End
+	End
 	
 	
 End Class
