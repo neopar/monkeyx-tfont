@@ -23,7 +23,7 @@ Class TFont
 	
 	'Load a new Font
 	Method New(Path:String, Size, Color:Int[] =[0, 0, 0])
-		Stream = New DataStream("monkey://data/" + Path, True)
+		Stream = New DataStream("cerberus://data/" + Path, True)
 		Self.Size = Size
 		Self.Color = Color
 		Self.Path = Path
@@ -85,7 +85,7 @@ Class TFont
 		Local HMetricsNumber = Stream.PeekUInt(2, hheaOffset + 34)
 
 		'===== Setup Glyph Arrays =====
-		GlyphId = New Int[1000]
+		GlyphId = New Int[GlyphNumber]
 		Glyph = New TFont_Glyph[GlyphNumber]
 		For Local i = 0 To GlyphNumber - 1
 			Glyph[i] = New TFont_Glyph
